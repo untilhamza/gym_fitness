@@ -1,42 +1,48 @@
-import React, {useEffect, useState} from 'react';
-import Pagination from '@mui/material/Pagination';
-import {Box, Stack, Typography } from '@mui/material';
-import { exerciseOptions, fetchData } from '../utils/fetchData';
-import ExerciseCard from './ExerciseCard';
+import React, { useEffect, useState } from "react";
+import Pagination from "@mui/material/Pagination";
+import { Box, Stack, Typography } from "@mui/material";
+import { exerciseOptions, fetchData } from "../utils/fetchData";
+import ExerciseCard from "./ExerciseCard";
 
-
-
-const Exercises = ({exercises, setExercises, bodyPart}) => {
+const Exercises = ({ exercises, setExercises, bodyPart }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [exercisesPerPage] = useState(6);
   const [isLoading, setIsLoading] = useState(false);
 
   const indexOfLastExercise = currentPage * exercisesPerPage;
   const indexOfFirstExercise = indexOfLastExercise - exercisesPerPage;
-  const currentExercise =exercises.slice(indexOfFirstExercise, indexOfLastExercise);
+  const currentExercise = exercises.slice(
+    indexOfFirstExercise,
+    indexOfLastExercise
+  );
 
   const paginate = (e, value) => {
     setCurrentPage(value);
 
-    window.scrollTo({top:1800, behavior: 'smooth'})
-  }
+    window.scrollTo({ top: 1800, behavior: "smooth" });
+  };
   useEffect(() => {
     const fetchExercisesData = async () => {
       setIsLoading(true);
 
       let exercisesData = [];
 
-      if(bodyPart === 'all'){
-        exercisesData = await fetchData('https://exercisedb.p.rapidapi.com/exercises', exerciseOptions);
-    
+      if (bodyPart === "all") {
+        exercisesData = await fetchData(
+          "https://exercisedb.p.rapidapi.com/exercises",
+          exerciseOptions
+        );
       } else {
-        exercisesData = await fetchData(`https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}`, exerciseOptions);
+        exercisesData = await fetchData(
+          `https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}`,
+          exerciseOptions
+        );
       }
       setExercises(exercisesData);
       setIsLoading(false);
-    }
+    };
     fetchExercisesData();
-  },[bodyPart,setExercises]);
+  }, [bodyPart]);
 
   //paginate
 
@@ -72,7 +78,6 @@ const Exercises = ({exercises, setExercises, bodyPart}) => {
       </Stack>
     </Box>
   );
-}
+};
 
-export default Exercises
-
+export default Exercises;
