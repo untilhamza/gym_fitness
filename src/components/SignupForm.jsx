@@ -12,8 +12,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { SchemaValidation } from "./common/SchemaValidation";
-import { useFormik } from 'formik';
+import { signUpValidation } from "./common/SchemaValidation";
+import { useFormik } from "formik";
 
 function Copyright(props) {
   return (
@@ -36,26 +36,28 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
+  const { values, handleChange, errors, handleSubmit } = useFormik({
+    initialValues: {
+      email: "",
+      firstName: "",
+      lastName: "",
+      password: "",
+      confirmPassword: "",
+    },
+    validationSchema: signUpValidation,
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
 
-const { values, handleChange, errors } = useFormik({
-  initialValues: {
-    email: "",
-    firstName: "",
-    lastName: "",
-    password: "",
-    confirmPassword: "",
-  },
-  validationSchema: SchemaValidation,
-});
-    
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+  //   console.log({
+  //     email: data.get("email"),
+  //     password: data.get("password"),
+  //   });
+  // };
 
   return (
     <ThemeProvider theme={theme}>
@@ -131,7 +133,7 @@ const { values, handleChange, errors } = useFormik({
                   fullWidth
                   name="password"
                   label="Password"
-                  type="password"
+                  type="text"
                   id="password"
                   value={values.password}
                   onChange={handleChange}
@@ -146,7 +148,7 @@ const { values, handleChange, errors } = useFormik({
                   fullWidth
                   name="confirmPassword"
                   label="Confirm Password"
-                  type="confirmPassword"
+                  type="text"
                   id="confirmPassword"
                   value={values.confirmPassword}
                   onChange={handleChange}
@@ -169,6 +171,7 @@ const { values, handleChange, errors } = useFormik({
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={Object.values(errors).some((val) => Boolean(val))}
             >
               Sign Up
             </Button>
