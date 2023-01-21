@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Box } from "@mui/material";
 import ExerciseDetail from "./pages/ExerciseDetail";
@@ -11,12 +11,9 @@ import Exercises from "./components/Exercises";
 import ExerciseVideos from "./components/ExerciseVideos";
 import NotFound from "./components/NotFound";
 import "./App.css";
-import Authentication from "./components/Authentication";
+import AuthContext from "./auth/auth_context";
 
 const App = () => {
-  //is the user logged in?
-  //if not take them to login page or signup page
-  // if logged in , take them to the home page
   return (
     <>
       <Box width="400px" sx={{ width: { xl: "1488px" } }} m="auto">
@@ -40,9 +37,10 @@ const App = () => {
             path="/videos"
             element={<ExerciseVideos exerciseVideos={[]} name={"user"} />}
           />
-          <Route path="/auth" element={<Authentication />} />
+          {/* <Route path="/auth" element={<Authentication />} /> */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+
         <Footer />
       </Box>
     </>
