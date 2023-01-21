@@ -15,6 +15,7 @@ import Authentication from './components/Authentication';
 
 const App = () => {
     return ( 
+        <>
 <Box width = "400px" sx={{width: { xl: '1488px'}}} m="auto">
    
     <Navbar/>
@@ -32,6 +33,7 @@ const App = () => {
 
     <Footer/>
 </Box>
+</>
   );
 }
  
