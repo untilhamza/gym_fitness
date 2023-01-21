@@ -13,8 +13,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useFormik } from "formik";
-import { SchemaValidation } from './common/SchemaValidation';
-
+import { loginValidation } from "./common/SchemaValidation";
 
 function Copyright(props) {
   return (
@@ -37,25 +36,18 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
-  const {values,handleChange,errors} = useFormik({
-    initialValues:{
-      email:"",
-      age:"",
-      password:"",
-      confirmPassword:"",
+  const { values, handleChange, errors, handleSubmit } = useFormik({
+    initialValues: {
+      email: "test@test.com",
+      age: "20",
+      password: "testign101010!!!!!",
+      confirmPassword: "testign101010!!!!!",
     },
-    validationSchema: SchemaValidation,
+    validationSchema: loginValidation,
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    },
   });
- 
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -95,7 +87,7 @@ export default function SignIn() {
               autoComplete="email"
               autoFocus
             />
-            
+
             <TextField
               margin="normal"
               required
@@ -110,7 +102,7 @@ export default function SignIn() {
               helperText={errors.password}
               autoComplete="current-password"
             />
-      
+
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
@@ -120,6 +112,7 @@ export default function SignIn() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={Boolean(errors.email || errors.password)}
             >
               Sign In
             </Button>
