@@ -26,7 +26,16 @@ const App = () => {
           <Route path="/exercise/:id" element={<ExerciseDetail />} />
           <Route path="/Login" element={<LoginForm />} />
           <Route path="/signup" element={<SignupForm />} />
-          <Route path="/exercises" element={<Exercises />} />
+          <Route
+            path="/exercises"
+            element={
+              <Exercises
+                exercises={[]}
+                setExercises={() => {}}
+                bodyPart={"arms"}
+              />
+            }
+          />
           <Route
             path="/videos"
             element={<ExerciseVideos exerciseVideos={[]} name={"user"} />}
